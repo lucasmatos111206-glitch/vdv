@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<title>Plan d'Action Personnalisé — Joan</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --border: rgba(255,255,255,0.07);
+    --gold: #c9a84c;
+    --gold2: #e8c97a;
+    --text: #e8e4dd;
+    --muted: #7a7570;
+    --accent: rgba(201,168,76,0.12);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; background-color: #0a0a0a; }
+  body { background-color: #0a0a0a; color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; opacity: 0.4; }
+
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 24px 60px; position: relative; overflow: hidden; background-color: #0a0a0a; }
+  .hero::before { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%); pointer-events: none; }
+
+  .hero-label { font-size: 11px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(48px, 10vw, 88px); font-weight: 300; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 8px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(48px, 10vw, 88px); font-weight: 600; line-height: 1.05; letter-spacing: -0.02em; color: var(--gold2); margin-bottom: 40px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.5s; }
+  .hero-sub { font-size: 15px; color: var(--muted); max-width: 480px; line-height: 1.8; border-left: 1px solid var(--gold); padding-left: 20px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.7s; }
+  .hero-date { margin-top: 48px; font-size: 11px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; opacity: 0; animation: fadeUp 0.8s ease forwards 0.9s; }
+
+  .scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeUp 0.8s ease forwards 1.2s; }
+  .scroll-hint span { font-size: 10px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollLine 2s ease-in-out infinite; }
+  @keyframes scrollLine { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+  section { padding: 80px 24px; max-width: 720px; margin: 0 auto; background-color: #0a0a0a; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 300; line-height: 1.2; margin-bottom: 40px; letter-spacing: -0.01em; }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .divider { width: 100%; height: 1px; background-color: rgba(255,255,255,0.07); }
+
+  .bilan-grid { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .bilan-item { background-color: #111111; padding: 24px; transition: background 0.3s; }
+  .bilan-item:hover { background-color: #161616; }
+  .bilan-item .label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .bilan-item p { font-size: 14px; color: var(--text); line-height: 1.7; opacity: 0.85; }
+
+  .obstacles-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+  .obstacle { background-color: #111111; padding: 28px 24px; display: grid; grid-template-columns: 48px 1fr; gap: 20px; align-items: start; transition: background 0.3s; cursor: default; }
+  .obstacle:hover { background-color: #161616; }
+  .obstacle-num { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: rgba(201,168,76,0.25); line-height: 1; padding-top: 2px; transition: color 0.3s; }
+  .obstacle:hover .obstacle-num { color: var(--gold); }
+  .obstacle-title { font-size: 13px; font-weight: 500; letter-spacing: 0.05em; margin-bottom: 8px; color: var(--text); }
+  .obstacle-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  .plan-steps { display: flex; flex-direction: column; }
+  .plan-step { padding: 28px 0; border-bottom: 1px solid var(--border); }
+  .plan-step:last-child { border-bottom: none; }
+  .step-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 12px; }
+  .step-icon { width: 36px; height: 36px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
+  .step-title { font-size: 14px; font-weight: 500; padding-top: 8px; }
+  .step-body { font-size: 13px; color: var(--muted); line-height: 1.7; padding-left: 52px; }
+  .step-sub { font-size: 13px; color: var(--muted); line-height: 1.7; padding-left: 52px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .step-tag { display: inline-block; margin-left: 52px; margin-top: 8px; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); background: var(--accent); padding: 4px 10px; }
+
+  .macro-section { background-color: #111111; padding: 80px 24px; }
+  .macro-inner { max-width: 720px; margin: 0 auto; background-color: #111111; }
+  .macro-grid { display: grid; gap: 1px; background: var(--border); margin-top: 32px; }
+  .macro-item { background-color: #161616; padding: 24px 20px; display: grid; grid-template-columns: 80px 1fr; gap: 20px; align-items: start; }
+  .macro-name { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--gold); line-height: 1; padding-top: 4px; }
+  .macro-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .macro-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .next-section { padding: 100px 24px; text-align: center; max-width: 600px; margin: 0 auto; }
+  .next-icon { width: 64px; height: 64px; border: 1px solid rgba(201,168,76,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 32px; font-size: 22px; }
+  .next-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 5vw, 40px); font-weight: 300; margin-bottom: 24px; line-height: 1.2; }
+  .next-body { font-size: 14px; color: var(--muted); line-height: 1.8; }
+
+  footer { background-color: #0a0a0a; border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; font-size: 11px; letter-spacing: 0.1em; color: var(--muted); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    html, body { background-color: #0a0a0a; }
+    section { padding: 60px 20px; background-color: #0a0a0a; }
+    .hero { padding: 100px 20px 60px; background-color: #0a0a0a; }
+    .macro-section { padding: 60px 20px; background-color: #111111; }
+    .macro-inner { background-color: #111111; }
+    .macro-item { grid-template-columns: 60px 1fr; gap: 14px; padding: 20px 18px; background-color: #161616; }
+    .bilan-item { padding: 20px 18px; background-color: #111111; }
+    .obstacle { padding: 22px 18px; grid-template-columns: 36px 1fr; gap: 14px; background-color: #111111; }
+    .obstacle-num { font-size: 28px; }
+    .step-body, .step-sub { padding-left: 0; }
+    .step-tag { margin-left: 0; }
+    .plan-step { padding: 20px 0; }
+    .next-section { padding: 70px 20px; background-color: #0a0a0a; }
+    footer { background-color: #0a0a0a; }
+  }
+  @media (prefers-color-scheme: dark) { html, body { background-color: #0a0a0a; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Bilan · Appel R1 · 25 Mars 2025</div>
+  <div class="hero-title">Plan d'action <em>personnalisé</em></div>
+  <div class="hero-name">Joan</div>
+  <p class="hero-sub">25 à 30 kg à perdre, un historique de diètes trop dures qui ont craqué. Ce plan te donne la méthode concrète pour commencer à perdre — sans te tuer et sans tout reprendre derrière.</p>
+  <div class="hero-date">Confidentiel · Document personnalisé</div>
+  <div class="scroll-hint"><span>Explorer</span><div class="scroll-line"></div></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 01 -->
+<section class="reveal">
+  <div class="section-label">01 — Pourquoi ça n'a pas marché</div>
+  <h2 class="section-title">La diète trop dure — le <em>piège</em> classique</h2>
+
+  <div class="bilan-grid">
+    <div class="bilan-item">
+      <div class="label">Ce qui s'est passé</div>
+      <p>Escalope de dinde, petits pois carottes, tous les jours, sans variation. Tu étais en déficit — mais tu ne kiffais pas. Résultat inévitable : tu as craqué. Ce n'est pas un manque de volonté. Une diète que tu n'aimes pas ne peut pas tenir sur la durée. Personne ne peut.</p>
+    </div>
+    <div class="bilan-item">
+      <div class="label">Le problème au-delà du craquage</div>
+      <p>Une restriction trop sévère ne fait pas juste te donner faim. Elle dérègle le métabolisme : ton corps réduit sa dépense calorique pour s'adapter, tu bouges moins sans t'en rendre compte, et tu te retrouves à devoir manger encore moins pour continuer à perdre. C'est un cercle vicieux qui finit par bloquer complètement.</p>
+    </div>
+    <div class="bilan-item">
+      <div class="label">La vraie priorité</div>
+      <p>Perdre les premiers kilos avec une méthode que tu peux tenir. Pas la méthode la plus rapide sur le papier — celle qui va vraiment fonctionner sur toi, sur la durée. 500g perdus par semaine pendant un an, c'est 26 kg. Et tu ne les reprends pas.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 02 -->
+<section class="reveal">
+  <div class="section-label">02 — Ce qu'il faut comprendre</div>
+  <h2 class="section-title">Deux choses qui sabotent <em>sans qu'on le sache</em></h2>
+
+  <div class="obstacles-list">
+
+    <div class="obstacle">
+      <div class="obstacle-num">1</div>
+      <div>
+        <div class="obstacle-title">Couper les glucides trop fort — et perdre toute l'énergie</div>
+        <p class="obstacle-desc">Les glucides sont ton carburant principal. Quand tu les coupes brutalement, tu manques d'énergie, tes séances deviennent nulles, tu as tout le temps faim. Le corps finit par te forcer à craquer. Les glucides ne font pas grossir — un excès de calories fait grossir. La différence est importante : tu peux manger des glucides en étant en déficit, et tu dois le faire pour avoir l'énergie de bouger et de t'entraîner.</p>
+      </div>
+    </div>
+
+    <div class="obstacle">
+      <div class="obstacle-num">2</div>
+      <div>
+        <div class="obstacle-title">Éviter les lipides — et bloquer les hormones</div>
+        <p class="obstacle-desc">On a tendance à vouloir couper le gras pour perdre du gras. C'est le mauvais réflexe. Les lipides régulent les hormones — dont celles qui contrôlent directement le stockage du gras et la récupération musculaire. En dessous d'un certain seuil, le corps dysfonctionne : prise de poids inexpliquée, énergie en chute, récupération au ralenti. Vise minimum 1g de lipides par kilo de poids de corps par jour.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 03 — MÉTHODE CALORIES -->
+<section class="reveal">
+  <div class="section-label">03 — Comment trouver tes calories</div>
+  <h2 class="section-title">La méthode <em>concrète</em> — étape par étape</h2>
+
+  <div class="plan-steps">
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">🧮</div>
+        <div class="step-title">Calculer ton métabolisme de base</div>
+      </div>
+      <div class="step-body">Va sur Google, tape "calculer mon métabolisme de base". Entre ton poids (115 kg), ta taille, ton âge et ton niveau d'activité (sédentaire à modéré). Le site te donnera un nombre de calories. C'est ton point de départ — le nombre de calories que ton corps brûle.</div>
+      <div class="step-sub">Commence par te mettre à ce niveau de maintien pendant 1 à 2 semaines. Pas en déficit tout de suite. L'objectif : relancer le métabolisme si les anciennes diètes l'ont dérèglé. Si ton poids est stable après 10 jours, c'est bon signe — tu n'es pas en mode survie. Tu pourras alors baisser de 300 calories.</div>
+      <div class="step-tag">Première étape</div>
+    </div>
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">📱</div>
+        <div class="step-title">Estimer — pas forcément peser à chaque repas</div>
+      </div>
+      <div class="step-body">Tu n'as pas besoin d'être parfait pour perdre les premiers kilos. Prends un repas que tu manges souvent, pèse-le une fois, entre-le dans MyFitnessPal pour voir combien ça représente en calories. Fais ça pour 3 ou 4 repas de base que tu répètes. Tu auras une image mentale claire de ce que tu manges sans devoir tout peser chaque jour.</div>
+      <div class="step-sub">L'objectif n'est pas la précision parfaite — c'est d'avoir une idée réaliste de tes apports pour régler les quantités. Une erreur de 10-15% ne changera pas grand chose au début.</div>
+      <div class="step-tag">Cette semaine</div>
+    </div>
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">⚖️</div>
+        <div class="step-title">Te peser le matin et lire la tendance — pas le chiffre du jour</div>
+      </div>
+      <div class="step-body">Le poids varie de 0,5 à 2 kg d'un jour à l'autre selon l'eau, le sel, la digestion. Une valeur isolée ne veut rien dire. Ce qui compte : la moyenne de la semaine comparée à la semaine précédente. Si elle descend de 300 à 500g, tu es sur la bonne trajectoire. Si elle est stable deux semaines de suite, tu baisses les calories de 200 — pas plus.</div>
+      <div class="step-tag">Chaque matin</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 04 — MACROS -->
+<div class="macro-section reveal">
+  <div class="macro-inner">
+    <div class="section-label">04 — Les macros</div>
+    <h2 class="section-title">Ce que tu mets dans <em>ton assiette</em></h2>
+    <p style="font-size:14px; color: var(--muted); max-width: 560px; line-height: 1.8; margin-bottom: 0;">Trois grandes catégories, chacune avec un rôle précis. On ne supprime rien — on dose.</p>
+
+    <div class="macro-grid">
+      <div class="macro-item">
+        <div class="macro-name">P</div>
+        <div>
+          <div class="macro-title">Protéines — ce qui construit et protège le muscle</div>
+          <div class="macro-desc">Vise 1,6 à 2g par kilo de poids de corps. Les protéines rassasient plus longtemps que les glucides — tu as moins faim. Et elles protègent le muscle pendant la perte de poids, pour que ce soit du gras qui parte, pas de la masse musculaire. Sources : poulet, œufs, poisson, viande rouge, fromage blanc 0%.</div>
+        </div>
+      </div>
+      <div class="macro-item">
+        <div class="macro-name">G</div>
+        <div>
+          <div class="macro-title">Glucides — ton carburant, ne pas les supprimer</div>
+          <div class="macro-desc">Riz, pâtes, patates douces, pain complet, flocons d'avoine. Tu en as besoin pour avoir de l'énergie en journée et pour le sport. Quand tu es en déficit, tu vas naturellement en manger un peu moins — c'est normal. Mais les couper brutalement, c'est te condamner à être épuisé et à craquer.</div>
+        </div>
+      </div>
+      <div class="macro-item">
+        <div class="macro-name">L</div>
+        <div>
+          <div class="macro-title">Lipides — le gras qui aide à perdre du gras</div>
+          <div class="macro-desc">Minimum 1g par kilo de poids de corps. Huile d'olive, œufs entiers, avocats, noix, poisson gras. Pas en excès, mais pas en dessous du seuil non plus. C'est ce qui régule les hormones et évite les dérèglements qui bloquent la progression.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 05 — ALIMENTATION CONCRÈTE -->
+<section class="reveal">
+  <div class="section-label">05 — Ce que tu manges</div>
+  <h2 class="section-title">Privilégier ce qui <em>rassasie</em> sans exploser les calories</h2>
+
+  <div class="plan-steps">
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">🥦</div>
+        <div class="step-title">Légumes — remplir l'assiette sans exploser les calories</div>
+      </div>
+      <div class="step-body">Brocolis, haricots verts, courgettes, épinards, salade, tomates — tu peux en manger en grande quantité. Très peu de calories, beaucoup de volume dans l'estomac. C'est la base de chaque repas pour ne pas avoir faim sans dépasser ton total.</div>
+      <div class="step-tag">À chaque repas</div>
+    </div>
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">🚫</div>
+        <div class="step-title">Éviter les aliments ultra-transformés — beaucoup de calories, pas de satiété</div>
+      </div>
+      <div class="step-body">Gâteaux industriels, chips, sodas, viennoiseries — ce sont des calories vides qui ne rassasient pas. Tu peux manger 500 kcal de gâteaux et avoir faim 20 minutes après. Ces mêmes 500 kcal en poulet + légumes + riz, et tu tiens 4 à 5 heures. Ce n'est pas une question d'interdiction — c'est une question d'efficacité : tu en as pour ton argent calorique ou pas.</div>
+      <div class="step-tag">À limiter au maximum</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FIN -->
+<div style="background-color: #0a0a0a;">
+  <div class="next-section reveal">
+    <div class="next-icon">→</div>
+    <h2 class="next-title">Par où commencer <em>cette semaine</em></h2>
+    <p class="next-body">Une seule priorité : calculer ton métabolisme de base et essayer de manger autour de ce chiffre pendant 10 jours. Pas de restriction brutale. L'objectif, c'est de casser l'habitude actuelle et de voir comment ton corps réagit.<br><br>En parallèle, prends 2 ou 3 repas que tu manges souvent et entre-les dans MyFitnessPal pour avoir une idée de leur poids en calories. Ce n'est pas du tout obligatoire de tracker chaque repas — juste d'avoir quelques repères.<br><br>Si tu as des questions sur quoi que ce soit, passe sur WhatsApp directement. Je t'enverrai aussi des vidéos qui vont expliquer tout ça encore mieux — lis-les et mets-les en pratique.</p>
+  </div>
+</div>
+
+<footer>
+  Plan élaboré sur la base de l'échange du 25 mars 2025 · Joan · Document confidentiel
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
